@@ -10,7 +10,7 @@ export const Productsaxios = axios.create({
 });
 
 export const Useraxios = axios.create({
-  baseURL: `${baseurl}`, // Ensure `baseurl` is defined earlier in your code
+  baseURL: `${baseurl}`, 
   headers: {
     "Content-Type": "application/json",
   },
@@ -22,3 +22,9 @@ export const Orderaxios=axios.create({
           "Content-Type": "application/json",
     }
 });
+export const Adminaxios=axios.create({
+  baseURL:`${baseurl}admin`,
+  headers:{
+    "Content-Type": "application/json",
+}
+})

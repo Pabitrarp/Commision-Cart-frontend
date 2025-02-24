@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .invoice-container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #f9f9f9;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 50px;
+      text-decoration: underline;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    /* .invoice-details,
+    .customer-details {
+     
+    } */
+    .invoice-details span,
+    .customer-details span {
+      display: block;
+      margin-bottom: 4px;
+    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    .table th,
+    .table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+    .table th {
+      background-color: #f2f2f2;
+    }
+    .total {
+      text-align: right;
+      margin-top: 20px;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="invoice-container">
+    <div class="header">
+      <h1>Invoice</h1>
+      <!-- <p>Company Name</p>
+      <p>1234 Street Name, City, Country</p>
+      <p>Email: info@company.com | Phone: +1234567890</p> -->
+    </div>
+
+    <div class="invoice-details">
+
+      <span id="date"> 2025-01-04</span>
+      
+    </div>
+
+    <div class="customer-details" id="cusdetails">
+     
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Description</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody id="tablebody">
+      
+      </tbody>
+    </table>
+
+    <div class="total">
+      <h3 id="amount">Total Amount: $175</h3>
+    </div>
+
+    <div class="footer">
+      <p>Thank you for your business!</p>
+    </div>
+  </div>
+  <script>
+    const params=new URLSearchParams(window.location.search);
+    const data=params.get('data')
+    const dynamicdata=decodeURIComponent(data);
+    const parsedata=JSON.parse(dynamicdata)
+    const tabledata= document.getElementById('tablebody');
+    console.log(parsedata)
+    parsedata?.products?.forEach((element,index) => {
+      const row=document.createElement('tr');
+      row.innerHTML=`<td>${++index}</td>
+      <td>${element.name}</td>
+      <td>${element.quantity}</td>
+      <td>${element.price}</td>
+       <td>${element.quantity*element.price}</td>`;  
+     tabledata.appendChild(row); 
+    });
+   document.getElementById('amount').innerHTML=`Total Amount: &#8377 ${parsedata.total_amount}`;
+   document.getElementById("date").innerHTML=`<strong>Date:</strong> ${new Date().toLocaleString('en-IN',{timeZone:'asia/kolkata', hour12:true,minute:"2-digit",hour:"2-digit",month:"2-digit",year:"numeric",day:"2-digit"})}`
+   document.getElementById('cusdetails').innerHTML=` <h3>Customer Details:</h3>
+      <span><strong>Name:</strong>${parsedata?.userdata?.name}</span>
+      <span><strong>Address:</strong> ${parsedata?.address?.landmark}</span>
+      <span><strong>Email:</strong> ${parsedata?.userdata?.email}</span>
+      <span><strong>Phone:</strong> ${parsedata?.userdata?.phone}</span>`
+</script>
+</body>
+</html>

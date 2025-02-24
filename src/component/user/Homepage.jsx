@@ -37,6 +37,7 @@ export const Homepage = () => {
         const res= await Productsaxios.get("products/allproducts");
         if(res.status===200){
           setallproducts(res.data)
+          console.log(res.data)
         }
       } catch (error) {
         console.log(error)

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { GrFormPrevious } from "react-icons/gr";
 import { FaBagShopping } from "react-icons/fa6";
-import { Link } from 'react-router-dom';
+import { json, Link } from 'react-router-dom';
 import Mycart from '../../contex/usercart';
 import Usercontex from '../../contex/usercontex';
 import { Useraxios,Orderaxios,baseurlforimg } from '../../axios';
@@ -11,14 +11,21 @@ import { BsHouseAdd } from 'react-icons/bs';
 import { FiDelete } from 'react-icons/fi';
 import { MdDelete } from 'react-icons/md';
 import { BiSave } from 'react-icons/bi';
+import { Paymentqrcode } from '../Paymentqrcode';
+import { data } from 'autoprefixer';
+import { toast } from 'react-toastify';
+
 
 const Cart = () => {
   const [Address,setAddress]=useState("");
   const [Selectadd,setSelectadd]=useState("");
   const [ismodadlopen,setismodalopen]=useState(false);
+  const [ispaymodadlopen,setispaymodadlopen]=useState(false);
   const [addrescontainer,setaddrescontainer]=useState(true);
   const {User}=useContext(Usercontex)
   const {cart,remove,incrementquantity,decrementquantity,empty}=useContext(Mycart);
+  const [file,setfile]=useState(null);
+  const [tsid,settsid]=useState(null);
 
  useEffect(()=>{
   async function fetch() {
@@ -34,59 +41,95 @@ const Cart = () => {
   }
  },[ismodadlopen])
   
+  const openpaymetmodal=()=>setispaymodadlopen(true);
+  
   const openmodal=()=>setismodalopen(true);
-  const onclose=()=>setismodalopen(false)
+  const onclose=()=>{
+    setismodalopen(false)
+    setispaymodadlopen(false)
+  }
   const decreasecart=(v,value)=>{
     v==1?remove(value):decrementquantity(value);
   }
   const increment=(value)=>{
     incrementquantity(value);
   }
+  const createorder=async(e)=>{
 
-  const handlePayment = async (amount,id,products,add) => {
-    try {
-      if(cart.length==0){alert("plase add some products");return}
-      if(!Selectadd){alert("plase selsect address");return}
-      const { data } = await Orderaxios.post("addproducts", { amount });
-      const options = {
-        key: "rzp_test_uOZqbhkzZQ9vKC", // Replace with your test Razorpay key
-        amount: data.order.total_amount * 100, // Amount in paise
-        currency: data.order.currency,
-        order_id: data.order.razorpay_order_id, // Correct order_id
-        handler: async (response) => {
-          const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = response;
-          if (!razorpay_signature) {
-            console.log("Signature not present");
-            return alert("Payment was not completed!");
-          }
-          try {
-            const verifyResponse = await Orderaxios.post("veryfypayment", {
-              razorpay_order_id,
-              razorpay_payment_id,
-              razorpay_signature,
-              id,
-              products,
-              add,
-              amount
-            });
-            if(verifyResponse.status==201){
-            alert("Payment successful! Verification passed.");
-                     empty();
-              }
-          } catch (error) {
-            console.error("Verification failed:", error);
-            alert("Payment verification failed!");
-          }
-        },
-        theme: { color: "#3399cc" },
-      };
-  
-      const rzp = new Razorpay(options);
-      rzp.open();
-    } catch (error) {
-      console.error("Payment initiation failed:", error);
+    if(!file) {
+      toast.error("plz upload screenshots")
+      return;
     }
-  };
+    if(!tsid){
+      toast.error("enter transaction id")
+      return;
+    }
+   try {
+    const data=new FormData();
+    data.append("amount",total_amount);
+    data.append("id",User?.id);
+    data.append("products",JSON.stringify(products));
+    data.append("add",Selectadd);
+    data.append("tsid",tsid);
+    data.append("paymentproof",file);
+ 
+    const response=await Orderaxios.post("createorder",data,{
+      headers:{
+        "Content-Type":"multipart/from-data"
+      }
+    });
+    toast.success(response.data.message);
+    onclose();
+    empty();
+   } catch (error) {
+    console.log(error)
+   }
+  }
+
+  // const handlePayment = async (amount,id,products,add) => {
+  //   try {
+  //     if(cart.length==0){alert("plase add some products");return}
+  //     if(!Selectadd){alert("plase selsect address");return}
+  //     const { data } = await Orderaxios.post("addproducts", { amount });
+  //     const options = {
+  //       key: "rzp_test_uOZqbhkzZQ9vKC", // Replace with your test Razorpay key
+  //       amount: data.order.total_amount * 100, // Amount in paise
+  //       currency: data.order.currency,
+  //       order_id: data.order.razorpay_order_id, // Correct order_id
+  //       handler: async (response) => {
+  //         const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = response;
+  //         if (!razorpay_signature) {
+  //           console.log("Signature not present");
+  //           return alert("Payment was not completed!");
+  //         }
+  //         try {
+  //           const verifyResponse = await Orderaxios.post("veryfypayment", {
+  //             razorpay_order_id,
+  //             razorpay_payment_id,
+  //             razorpay_signature,
+  //             id,
+  //             products,
+  //             add,
+  //             amount
+  //           });
+  //           if(verifyResponse.status==201){
+  //           alert("Payment successful! Verification passed.");
+  //                    empty();
+  //             }
+  //         } catch (error) {
+  //           console.error("Verification failed:", error);
+  //           alert("Payment verification failed!");
+  //         }
+  //       },
+  //       theme: { color: "#3399cc" },
+  //     };
+  
+  //     const rzp = new Razorpay(options);
+  //     rzp.open();
+  //   } catch (error) {
+  //     console.error("Payment initiation failed:", error);
+  //   }
+  // };
  const removeadd=async(id)=>{
   try {
     const filterdata=Address.filter((data)=>data._id !=id);
@@ -139,7 +182,7 @@ const products=cart.map((item)=>item);
   <div className='fixed  bg-white  w-full bottom-0 min-h-14 justify-center flex items-center border shadow-sm shadow-blue-200 '>
     <div className='text-black text-md uppercase'>Total Amount = ₹{total_amount}</div>
   </div>
-     { Selectadd&&<button className="fixed bottom-4 right-5 bg-blue-400 text-white text-lg w-16 h-16 rounded-full shadow-md shadow-blue-300 border-white hover:bg-blue-300 hover:shadow-blue-200" onClick={()=>handlePayment(total_amount,User?.id,products,Selectadd)}>
+     { Selectadd&&<button className="fixed bottom-4 right-5 bg-blue-400 text-white text-lg w-16 h-16 rounded-full shadow-md shadow-blue-300 border-white hover:bg-blue-300 hover:shadow-blue-200" onClick={openpaymetmodal}>
        Order
       </button>}
       
@@ -174,6 +217,27 @@ const products=cart.map((item)=>item);
     <Modal isopen={ismodadlopen} onclose={onclose} title={"Your Address Is Require For Order"}>
       <Addressfrom id={User?.id} onclose={onclose}></Addressfrom>
     </Modal>
+    
+    <Modal isopen={ispaymodadlopen} onclose={onclose} title={"Payment"}>
+        <div className='  w-full flex flex-col items-center gap-5 '>
+                 <div className=' flex items-center'>
+                     <Paymentqrcode amount={total_amount?total_amount:0}/>
+                 </div>
+                 <div className='flex justify-center border-2 h-32  border-blue-300 rounded-lg items-center w-full flex-col gap-2'>
+                   <label htmlFor="lable" className='capitalize font-bold '>
+                    Upload scrrenshort of payment
+                   </label>
+                   <div className='w-52 flex flex-col gap-2'>
+                   <input type="file" name="" id=""  accept='' onChange={(e)=>setfile(e.target.files[0])}/>
+                   <input type="text"  onChange={(e)=>settsid(e.target.value)} className='border-blue-500 rounded-lg px-2 py-1 border outline-none' placeholder='enter transaction id'/>
+                   </div>
+                 </div>
+                 <button className='px-5 py-2 capitalize bg-blue-300 rounded-md font-bold text-md shadow-md hover:bg-blue-200' onClick={createorder}>submit</button>
+
+        </div>
+    </Modal>
+
+
   </div>);
 };
 

@@ -12,8 +12,10 @@ const App = () => {
       {userrouter.map((user, index) => (
         <Route key={index} path={user.path} element={<user.Component />} />
       ))}
+
     {adminroutes.map((admin, index) => (
-        <Route key={index} path={admin.path} element={<admin.Comment />} />
+      
+        <Route key={index} path={admin.path} element={<admin.Component />} />
       ))}
 
       <Route path="/" element={<Homepage/>}></Route>

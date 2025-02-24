@@ -13,7 +13,6 @@ export const Usercontextprovider = ({children}) => {
             if(decode.Number!=User?.Number&&!User){
                 navigate("/signup");
             }
-          
             setUser({Email:decode.Email,Phone:decode.Number,id:decode.id})
           } catch (error) {
             console.log(error)

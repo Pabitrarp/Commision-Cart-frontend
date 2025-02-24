@@ -7,15 +7,18 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { MyCartProvider } from './contex/usercart';
 import { Usercontextprovider } from './contex/usercontex.jsx';
+import { Admincontex } from './contex/admincontex.jsx';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Router>
-      <Usercontextprovider>
+     <Admincontex>
+     <Usercontextprovider>
       <MyCartProvider>
         <App />
       </MyCartProvider>
     </Usercontextprovider>
       <ToastContainer />
+     </Admincontex>
     </Router>
   </React.StrictMode>,
 )
