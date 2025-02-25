@@ -10,6 +10,7 @@ import { FaWallet } from "react-icons/fa";
 import { HiMiniShoppingCart } from "react-icons/hi2";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import  mainlogo  from "../../assets/mainlogo.png"
 export const Navbar = () => {
     const {cart}=useContext(Mycart);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -37,7 +38,7 @@ export const Navbar = () => {
                     {isMenuOpen?<IoCloseOutline className='text-3xl'/>:<SlMenu/>}
                   </div>
                   <div className="text-xl font-bold ">
-                    sr
+                    <img src={mainlogo} alt=""  className='w-12  h-12 rounded-full'/> 
                   </div>
                   <Link to="/mycart" className="absolute right-5">
                     <FaBagShopping className="text-3xl"  />

@@ -127,10 +127,7 @@ export const Orders = () => {
       )}
     </tbody>
   </table>
-</div>
-
-
-      
+</div> 
      </Layout>
   )
 }
