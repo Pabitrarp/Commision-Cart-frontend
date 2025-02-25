@@ -50,7 +50,7 @@ export const Navbar = () => {
             isMenuOpen ? "translate-x-0" : "-translate-x-full"
         } duration-1000 ease-in-out border-t-0 border-blue-400 shadow-md shadow-blue-400`}>
           <div className=" text-lg  max-w-40 overflow-hidden text-ellipsis font-bold text-center">Welcome !</div>
-          <div className="text-lg  max-w-48 overflow-hidden text-ellipsis font-semibold text-center">Pabitra moharana</div>
+          <div className="text-lg  max-w-48 overflow-hidden text-ellipsis font-semibold text-center"></div>
           <hr  className='border w-full border-black opacity-20 my-4'/>
           <div className="text-lg"></div>
           <Link to="/myprofile" className="py-2 text-lg uppercase flex gap-3 items-center hover:font-extrabold"><MdPerson3 className='text-2xl'/> profile</Link>
