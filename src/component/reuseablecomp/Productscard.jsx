@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-
+import { baseurlforimg } from '../../axios';
 export const Productscard = ({allproducts}) => {
   return (<>
     {
@@ -11,7 +11,7 @@ export const Productscard = ({allproducts}) => {
               {data?.products?.map((item,index) => <div className=" lg:w-40 min-w-24  rounded-xl overflow-hidden cursor-pointer border-r-2 border-l-2 border-b-2 border-blue-100 mt-2" key={index} >
                 <Link to={`/products/${data.catagoryname}/${item.id}`}>
                 <div className="image">
-                  <img src={`http://localhost:8000${item.image}`} className='object-cover h-20 w-full lg:w-40 lg:h-32' />
+                  <img src={`${baseurlforimg}${item?.image}`} className='object-cover h-20 w-full lg:w-40 lg:h-32' />
                 </div>
                 <div className=" text-xs  p-0.5 text-center min-h-9">{item.name}</div>
                 <div className="flex justify-between p-1">
