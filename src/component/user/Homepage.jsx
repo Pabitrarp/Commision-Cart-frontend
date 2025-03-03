@@ -8,12 +8,14 @@ import Usercontex from '../../contex/usercontex'
 import { jwtDecode } from 'jwt-decode'
 import { Productsaxios } from '../../axios'
 import { Modal } from '../reuseablecomp/Modal'
-
+import { Loading } from '../reuseablecomp/Loading'
+ 
 
 
 export const Homepage = () => {
   const [allproducts,setallproducts]=useState([]);
   const navigate=useNavigate();
+  const [Load,setLoad]=useState(false);
   const {User,setUser}=useContext(Usercontex);
   useEffect(()=>{
     const token=localStorage.getItem("user");
@@ -33,23 +35,27 @@ export const Homepage = () => {
      
     }
     const getproducts=async()=>{
+      setLoad(true);
       try {
         const res= await Productsaxios.get("products/allproducts");
         if(res.status===200){
           setallproducts(res.data)
-          console.log(res.data)
+          setLoad(flase)
         }
       } catch (error) {
         console.log(error)
+        setLoad(false)
       }
     }
     getproducts();
     
 
   },[])
- 
+  if(Load){
+    return <Loading></Loading>
+  }
   return (
-<div className='bg-blue-50 h-full'>
+<div className=' h-full '>
     <Navbar></Navbar>
     <Crousal></Crousal>
     <Catagory></Catagory>

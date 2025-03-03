@@ -8,8 +8,10 @@ import { Useraxios } from '../../axios';
 import { GiMoneyStack } from 'react-icons/gi';
 import { FaInbox } from 'react-icons/fa';
 import { Modal } from '../reuseablecomp/Modal';
+import { Loading } from '../reuseablecomp/Loading';
 export const Walet = () => {
   const [isopen,setisopen]=useState(false);
+  const [Load,setLoad]=useState(false);
     const {cart}=useContext(Mycart);
     const {User}=useContext(Usercontex);
     const [Wallet, setWallet] = useState('')
@@ -17,10 +19,13 @@ export const Walet = () => {
     useEffect(() => {
        const fetch=async()=>{
         try {
+          setLoad(true);
           const res=await Useraxios.post("/user/wallet",{User});
           setWallet(res.data.data);
+          setLoad(false);
         } catch (error) {
           console.log(error);
+          setLoad(false);
         }
        }
     if(User){
@@ -40,9 +45,12 @@ export const Walet = () => {
       
      }
  }
+  if(Load){
+    return <Loading/>
+  }
   return (
     <>
-    <div className="header p-4 flex items-center justify-center bg-white sticky top-0 border shadow-sm shadow-blue-200">
+    <div className="header p-4 flex items-center justify-center bg-gradient-to-tr from-cyan-400  to-cyan-800 text-white sticky top-0 ">
     <Link to="/" className="absolute left-4">
       <GrFormPrevious className="text-3xl" />
     </Link>
@@ -55,18 +63,18 @@ export const Walet = () => {
     </Link>
   </div>
   <div className='p-3'>
-      <div className='border p-2 rounded-lg border-black text-justify  flex flex-col items-center bg-white'>
-        <p className='text-lg font-semibold capitalize'>name: {Wallet.name}</p>
-        <p className='text-lg font-semibold capitalize'>phone: {Wallet.phone}</p>
-        <p className='text-lg font-semibold capitalize'>email: {Wallet.email}</p>
-        <p className='text-lg font-semibold capitalize'>commision: {Wallet.commision}</p>
-        <p className='text-lg font-semibold capitalize'>referearn: {Wallet.referearn}</p>
-        <div className=' w-full p-2 flex justify-between items-center mt-4'>
-            <p className='capitalize text-lg font-semibold'>total earnings: {Wallet.referearn+Wallet.commision}</p>
-            <button className={`${Wallet.referearn+Wallet.commision>100&&Wallet.commision>0?"bg-blue-400 text-white":"bg-gray-400 text-black opacity-50"} flex p-2 gap-2 text-lg capitalize font-semibold rounded-lg border`}disabled={Wallet.referearn+Wallet.commision>10&&Wallet.commision==0?false:true} onClick={()=>setisopen(true)}>withdrawal<GiMoneyStack className='text-3xl'></GiMoneyStack></button>
-        </div>
+    <div className='border p-2 rounded-lg border-black text-justify  flex flex-col items-center bg-gradient-to-tr from-cyan-400  to-cyan-800 text-white'>
+      <p className='text-lg font-semibold capitalize'>name: {Wallet.name}</p>
+      <p className='text-lg font-semibold capitalize'>phone: {Wallet.phone}</p>
+      <p className='text-lg font-semibold capitalize'>email: {Wallet.email}</p>
+      <p className='text-lg font-semibold capitalize'>commision: {Wallet.commision}</p>
+      <p className='text-lg font-semibold capitalize'>referearn: {Wallet.referearn}</p>
+      <div className=' w-full p-2 flex justify-between items-center mt-4'>
+          <p className='capitalize text-lg font-semibold'>total earnings: {Wallet.referearn+Wallet.commision}</p>
+          <button className={`${Wallet.referearn+Wallet.commision>100&&Wallet.commision>0?"bg-blue-400 text-white":"bg-gray-400 text-white "} flex p-2 gap-2 text-lg capitalize font-semibold rounded-lg `}disabled={Wallet.referearn+Wallet.commision>10&&Wallet.commision==0?false:true} onClick={()=>setisopen(true)}>withdrawal<GiMoneyStack className='text-3xl'></GiMoneyStack></button>
       </div>
-
+    </div>
+    
   </div>
   <Modal isopen={isopen} onclose={onclose} title={"withdrawal amount"}>
     <div className='flex flex-col gap-2'>

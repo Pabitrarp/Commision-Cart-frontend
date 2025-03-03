@@ -152,8 +152,8 @@ const total_amount= cart.reduce((acc, item) => acc + item.price*item.quantity, 0
  }
 
 const products=cart.map((item)=>item);
-  return (<div>
-    <div className="header p-4 flex items-center justify-center bg-white sticky top-0 border shadow-sm shadow-blue-200">
+  return (<div >
+    <div className="header p-4 flex items-center justify-center  sticky top-0  bg-gradient-to-tr from-cyan-400  to-cyan-800 text-white ">
     <Link to="/" className="absolute left-4">
       <GrFormPrevious className="text-3xl" />
     </Link>
@@ -170,7 +170,7 @@ const products=cart.map((item)=>item);
   <div className='overflow-hidden'>
     <img src={`${baseurlforimg}${cart.image}`}  className='max-w-16  min-w-16 min-h-16 max-h-16 rounded-lg'/></div>
   <div className=' items-center  max-w-32 text-wrap overflow-hidden whitespace-nowrap '>{cart.name}</div>
-  <div className='flex gap-2 border border-blue-400 rounded-lg'>
+  <div className='flex gap-2 border border-blue-400 rounded-lg   '>
     <div className='text-1xl font-bold text-blue-400 border-r border-blue-400 p-2 flex justify-center items-center' onClick={()=>increment(cart)}>+</div>
     <p className='font-bold text-blue-400 justify-center items-center flex'>{cart.quantity}</p>
     <div className='text-2xl font-bold text-blue-400 border-l border-blue-400 p-2 flex justify-center items-center' onClick={()=>decreasecart(cart.quantity,cart)}>-</div>

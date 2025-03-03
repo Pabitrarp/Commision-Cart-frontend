@@ -8,16 +8,20 @@ import { Orderaxios, Useraxios } from '../../axios';
 import { baseurlforimg } from '../../axios';
 export const Order = () => {
     const [order,setorder]=useState([]);
+    const [Load,setLoad]=useState(false);
     const {cart}=useContext(Mycart);
     const {User}=useContext(Usercontex);
     useEffect(()=>{
        const fetch= async () => {
             try {
+               setLoad(true);
                 const userorders=await Orderaxios.post("/getallorders",{User});
                 if(userorders.status==200){
                     setorder(userorders?.data?.orders)
+                    setLoad(false);
                 }
             } catch (error) {
+              setLoad(false);
               console.log(error)  
             }
         }
@@ -25,7 +29,7 @@ export const Order = () => {
     } ,[User])
   return (
     <>
-    <div className="header p-4 flex items-center justify-center bg-white sticky top-0 border shadow-sm shadow-blue-200">
+    <div className="header p-4 flex items-center justify-center bg-gradient-to-tr from-cyan-400  to-cyan-800 text-white sticky top-0">
      <Link to="/" className="absolute left-4">
       <GrFormPrevious className="text-3xl" />
    </Link>

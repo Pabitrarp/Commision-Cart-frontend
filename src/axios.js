@@ -3,7 +3,7 @@ import axios from "axios";
 // const baseurl="http://192.168.245.172:8000/api/v1/";
   export const baseurlforimg="https://commision-cart-backend.onrender.com";
 export const Productsaxios = axios.create({
-  baseURL: `${baseurl}`, // Ensure `baseurl` is defined earlier in your code
+  baseURL: `${baseurl}`, 
   headers: {
     "Content-Type": "application/json",
   },

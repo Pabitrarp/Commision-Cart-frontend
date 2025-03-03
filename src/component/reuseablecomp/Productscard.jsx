@@ -8,13 +8,18 @@ export const Productscard = ({allproducts}) => {
           return <div className='mt-4' id={data.catagoryname} key={index}>
          {data?.products?.length >0&& <p className='text-center underline font-bold text-lg lg:text-2xl'>{data.catagoryname}</p>}
             <div className='grid grid-cols-3 gap-1.5 lg:justify-center items-center ml-2.5 mr-2.5 lg:flex lg:space-x-2'>
-              {data?.products?.map((item,index) => <div className=" lg:w-40 min-w-24  rounded-xl overflow-hidden cursor-pointer border-r-2 border-l-2 border-b-2 border-blue-100 mt-2" key={index} >
+              {data?.products?.map((item,index) => <div className=" lg:w-40 min-w-24  rounded-xl overflow-hidden cursor-pointer border-r-2 border-l-2 border-b-2 border-blue-100 mt-2 bg-gray-100 relative" key={index} >
                 <Link to={`/products/${data.catagoryname}/${item.id}`}>
+               {item.stuck===0 && <div className='absolute h-24 w-full  text-white bg-white bg-opacity-45 flex justify-center items-center'>
+                       <p className='text-red-500 capitalize '>out of stuck</p>
+                </div>}
+
+
                 <div className="image">
-                  <img src={`${baseurlforimg}${item?.image}`} className='object-cover h-20 w-full lg:w-40 lg:h-32' />
+                  <img src={`${baseurlforimg}${item?.image}`} className='object-cover h-24 w-full lg:w-40 lg:h-32' />
                 </div>
-                <div className=" text-xs  p-0.5 text-center min-h-9">{item.name}</div>
-                <div className="flex justify-between p-1">
+                <div className=" text-xs  px-0.5 text-center  mt-2 uppercase font-bold  mb-2">{item.name}</div>
+                <div className="flex justify-between px-1">
                   <div className="text-xs">
                     ₹{item.price}
                   </div>

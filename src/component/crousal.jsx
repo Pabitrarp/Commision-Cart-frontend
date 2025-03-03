@@ -6,8 +6,7 @@ const images = [
 
     "https://media.istockphoto.com/id/691910445/photo/smiling-businessman-with-cup-looking-away-in-city.webp?a=1&b=1&s=612x612&w=0&k=20&c=rGyjnpxplXpKJZue_hutENYtoidA1i58aJRb87Q9690=",
 
-    "https://media.istockphoto.com/id/1412240771/photo/headphones-on-white-background.webp?a=1&b=1&s=612x612&w=0&k=20&c=pb7g-pshveovgjtWAMKHk-xYXOypavxTy7EVUfVOO_o=",
-        
+    "https://images.unsplash.com/photo-1611864555846-1d5dea66587c?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 ];
 export const Crousal = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -15,7 +14,7 @@ export const Crousal = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             nextSlide();
-        }, 5000); // 5000ms = 5 seconds
+        }, 6000); // 5000ms = 5 seconds
 
         return () => clearInterval(interval); 
     }, []); 
@@ -47,7 +46,7 @@ export const Crousal = () => {
                 key={index}
                 src={image}
                 alt={`Slide ${index}`}
-                className="w-full h-full flex-shrink-0  object-cover"
+                className="w-full h-fit flex-shrink-0  object-cover "
             /> 
         ))}
     </div>
