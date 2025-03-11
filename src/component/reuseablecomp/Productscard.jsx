@@ -10,7 +10,8 @@ export const Productscard = ({allproducts}) => {
             <div className='grid grid-cols-3 gap-1.5 lg:justify-center items-center ml-2.5 mr-2.5 lg:flex lg:space-x-2'>
               {data?.products?.map((item,index) => <div className=" lg:w-40 min-w-24  rounded-xl overflow-hidden cursor-pointer border-r-2 border-l-2 border-b-2 border-blue-100 mt-2 bg-gray-100 relative" key={index} >
                 <Link to={`/products/${data.catagoryname}/${item.id}`}>
-               {item.stuck===0 && <div className='absolute h-24 w-full  text-white bg-white bg-opacity-45 flex justify-center items-center'>
+                {console.log(item)}
+               {item.stuck==0 && <div className='absolute h-24 w-full  text-white bg-white bg-opacity-45 flex justify-center items-center'>
                        <p className='text-red-500 capitalize '>out of stuck</p>
                 </div>}
 

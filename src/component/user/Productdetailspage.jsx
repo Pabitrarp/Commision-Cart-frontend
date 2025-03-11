@@ -75,8 +75,7 @@ export const Productdetailspage = () => {
                   <div className='flex justify-between p-2'>
                     <p className="text-blue-500 font-bold">₹{p.price}</p>
                     <p className="font-semibold opacity-30">{p.grams}/g</p></div>
-                  
-                    <button className='uppercase bg-blue-400 p-2 text-white rounded-lg mt-2' onClick={()=>add(p)}>add to cart</button>
+                   {p.stuck==0?<div className=' p-2 capitalize font-semibold text-md text-red-500 border-red-500 border rounded-md'>this product currentlly out of stucks</div>: <button className='uppercase bg-blue-400 p-2 text-white rounded-lg mt-2' onClick={()=>add(p)}>add to cart</button>}
                   
                 </div>
                 <hr className="border-t border-black  " />
