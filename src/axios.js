@@ -1,8 +1,8 @@
 import axios from "axios";
-//  const baseurl="https://commision-cart-backend.onrender.com/api/v1/";
-const baseurl="http://localhost:8000/api/v1/";
-  // export const baseurlforimg="https://commision-cart-backend.onrender.com";
-  export const baseurlforimg="http://localhost:8000"
+ const baseurl="https://commision-cart-backend.onrender.com/api/v1/";
+// const baseurl="http://localhost:8000/api/v1/";
+  export const baseurlforimg="https://commision-cart-backend.onrender.com";
+  // export const baseurlforimg="http://localhost:8000"
 export const Productsaxios = axios.create({
   baseURL: `${baseurl}`, 
   headers: {
